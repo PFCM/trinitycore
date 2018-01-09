@@ -162,7 +162,9 @@ define_args() {
 build() {
   mkdir -p "${cmdarg_cfg[source]%/}/TrinityCore/build"
   pushd "${cmdarg_cfg[source]%/}/TrinityCore/build"
-
+  echo "cmake     version   "
+  cmake --version
+  echo "~~~~~~~~~~~~~~~~~~"
   # Turn on --debug preset cmake arguments.
   if [[ "${cmdarg_cfg[debug]}" == true ]]; then
     # https://github.com/TrinityCore/TrinityCore/blob/master/.travis.yml

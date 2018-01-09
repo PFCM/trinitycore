@@ -2,7 +2,7 @@
 # # Copyright (c) 2017 Nicola Worthington <nicolaw@tfb.net>
 
 # Default username and password to create a GM user.
-DEFAULT_GM_USER = trinity
+DEFAULT_GM_USER = pfcm
 DEFAULT_GM_PASSWORD = trinity
 DEFAULT_GM_ID = 1
 
@@ -251,7 +251,7 @@ $(SQL_ADD_GM_USER): $(SQL_ARTIFACTS)/custom
 $(SQL_FIX_REALMLIST): $(SQL_ARTIFACTS)/custom
 	printf 'REPLACE INTO realmlist (id,name,address,port) VALUES ("%s","%s","%s","%s");\n' \
 		"$(WORLDSERVER_REALM_ID)" "$(WORLDSERVER_NAME)" \
-		"$(shell hostname -i | egrep -o '[0-9\.]{7,15}')" \
+		"$(shell hostname)" \
 		"$(WORLDSERVER_PORT)"	> "$@"
 
 # Copy binary build artifacts in to Docker container build directories.

@@ -1,21 +1,19 @@
 # MIT License
 # Copyright (c) 2017 Nicola Worthington <nicolaw@tfb.net>
 
-FROM debian:jessie
+FROM debian:stretch
 LABEL author="Nicola Worthington <nicolaw@tfb.net>"
 
 ENV DEBIAN_FRONTEND noninteractive
 
+RUN echo "deb http://ftp.debian.org/debian jessie-backports main" > /etc/apt/sources.list.d/backports.list
+
 RUN apt-get -qq -o Dpkg::Use-Pty=0 update && \
     apt-get -qq -o Dpkg::Use-Pty=0 install -y --no-install-recommends \
     curl \
-    libboost-filesystem1.55 \
-    libboost-iostreams1.55 \
-    libboost-program-options1.55 \
-    libboost-system1.55 \
-    libboost-thread1.55 \
-    libssl1.0.0 \
-    libmysqlclient18 \
+    libboost-all-dev \
+    libssl-dev=1.0.2l-1~bpo8+1 \
+    default-libmysqlclient-dev \
     mysql-client \
     netcat \
     xml2 \
@@ -46,6 +44,8 @@ ADD https://raw.githubusercontent.com/neechbear/tcadmin/master/tcadmin "${instal
 COPY worldserver.sh "${install_prefix}/bin/worldserver.sh"
 COPY worldserver "${install_prefix}/bin/worldserver"
 RUN chmod +x "${install_prefix}/bin"/*
+
+# COPY source/ /usr/local/src/
 
 # Add TDB_*.sql database dump for initial world database initialisation.
 ADD TDB_*.sql "${install_prefix}/bin/"

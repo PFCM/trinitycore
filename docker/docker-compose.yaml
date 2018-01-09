@@ -51,6 +51,7 @@ services:
       - ../artifacts/etc:/opt/trinitycore/etc
       - ../artifacts/mapdata:/opt/trinitycore/mapdata
       - ../artifacts/sql:/opt/trinitycore/sql
+      - ../source:/usr/local/src
   tcjsonapi:
     build: tcjsonapi
     environment:

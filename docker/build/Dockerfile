@@ -1,45 +1,42 @@
 # MIT License
 # Copyright (c) 2017 Nicola Worthington <nicolaw@tfb.net>
 
-FROM debian:jessie
+FROM debian:stretch
 LABEL author="Nicola Worthington <nicolaw@tfb.net>"
 
 ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt-get -qq -o Dpkg::Use-Pty=0 update && \
     apt-get -qq -o Dpkg::Use-Pty=0 install -y --no-install-recommends \
-    software-properties-common python-software-properties \
+    software-properties-common \
+    python3-software-properties \
+    curl \
  < /dev/null > /dev/null
 
-RUN add-apt-repository ppa:nicolaw/blip && \
-    sed -i 's/jessie/trusty/g' /etc/apt/sources.list.d/nicolaw-blip-jessie.list
+RUN curl -O -L https://github.com/neechbear/blip/releases/download/v0.9-1/blip_0.9-1_all.deb && \
+    apt install -y ./*.deb && rm *.deb
+
+RUN echo "deb http://ftp.debian.org/debian jessie-backports main" > /etc/apt/sources.list.d/backports.list
 
 # https://github.com/TrinityCore/TrinityCore/blob/master/.travis.yml
 # https://trinitycore.atlassian.net/wiki/display/tc/Requirements
 RUN apt-get -qq -o Dpkg::Use-Pty=0 update && \
     apt-get -qq -o Dpkg::Use-Pty=0 install -y --no-install-recommends \
     blip \
-    cmake \
     g++ \
     gcc \
     git \
     jq \
+    cmake \
     make \
     p7zip-full \
-    libboost1.55-dev \
-    libboost-filesystem1.55-dev \
-    libboost-iostreams1.55-dev \
-    libboost-program-options1.55-dev \
-    libboost-regex1.55-dev \
-    libboost-system1.55-dev \
-    libboost-thread1.55-dev \
-    libssl-dev \
-    libmysqlclient-dev \
+    libboost-all-dev \
+    libssl-dev=1.0.2l-1~bpo8+1 \
+    default-libmysqlclient-dev \
     libreadline6-dev \
     zlib1g-dev \
     libbz2-dev \
     libncurses5-dev \
- < /dev/null > /dev/null \
  && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /
