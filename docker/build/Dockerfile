@@ -4,6 +4,8 @@
 FROM debian:stretch
 LABEL author="Nicola Worthington <nicolaw@tfb.net>"
 
+ARG REPO=https://github.com/pfcm/trinitycore-1
+
 ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt-get -qq -o Dpkg::Use-Pty=0 update && \
@@ -48,6 +50,6 @@ VOLUME /artifacts
 
 ENV DEBIAN_FRONTEND newt
 
-ENTRYPOINT ["/build.sh"]
+ENTRYPOINT ["/build.sh", "-r", "${REPO}"]
 CMD ["-o", "/artifacts"]
 
