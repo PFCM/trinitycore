@@ -18,7 +18,7 @@ DB_AUTH = auth
 # What realm ID and port should the worldserver identify itself as.
 WORLDSERVER_REALM_ID = 2
 WORLDSERVER_PORT = 8085
-WORLDSERVER_NAME = "TrinityCore"
+WORLDSERVER_NAME = "Trinity"
 
 # Enable worldserver remote access and SOAP API by default.
 WORLDSERVER_RA = 1
