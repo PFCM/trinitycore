@@ -50,6 +50,6 @@ VOLUME /artifacts
 
 ENV DEBIAN_FRONTEND newt
 
-ENTRYPOINT ["/build.sh", "-r", "${REPO}"]
+ENTRYPOINT ["/build.sh"]
 CMD ["-o", "/artifacts"]
 

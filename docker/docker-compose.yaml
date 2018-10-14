@@ -23,6 +23,7 @@ services:
       - ../artifacts/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
   authserver:
     build: authserver
+    image: "${DOCKER_REGISTRY}/authserver"
     environment:
       DB_HOST: "${DB_HOST:-mariadb}"
       DB_PORT: "${DB_PORT:-3306}"
@@ -36,6 +37,7 @@ services:
       - ../artifacts/etc:/opt/trinitycore/etc
   worldserver:
     build: worldserver
+    image: "${DOCKER_REGISTRY}/worldserver"
     environment:
       DB_HOST: "${DB_HOST:-mariadb}"
       DB_PORT: "${DB_PORT:-3306}"
@@ -51,9 +53,10 @@ services:
       - ../artifacts/etc:/opt/trinitycore/etc
       - ../artifacts/mapdata:/opt/trinitycore/mapdata
       - ../artifacts/sql:/opt/trinitycore/sql
-      - ../source:/usr/local/src
+      - ../artifacts/sql:/usr/local/src/TrinityCore/sql
   tcjsonapi:
     build: tcjsonapi
+    image: "${DOCKER_REGISTRY}/tcjsonapi"
     environment:
       DB_HOST: "${DB_HOST:-mariadb}"
       DB_PORT: "${DB_PORT:-3306}"
@@ -69,6 +72,7 @@ services:
       - "8081:80"
   keira2:
     build: keira2
+    image: "${DOCKER_REGISTRY}/keira2"
     environment:
       TC_JSON_API_PORT: "8081"
       #TC_JSON_API_URL: "location.protocol + '//' + location.hostname + ':' + '${TC_JSON_API_PORT}' + '/public/index.php/'"

@@ -164,6 +164,7 @@ $(BINARIES) $(DIST_CONF) $(SQL_ARTIFACTS)/create/%:
 		"tcbuild" \
 		--branch "$(BRANCH)" \
 		--define "CMAKE_INSTALL_PREFIX=$(INSTALL_PREFIX)" \
+                --repo "https://github.com/pfcm/trinitycore-1" \
 		--verbose
 
 # Generate worldserver map data from World of Warcraft game client data inside a
