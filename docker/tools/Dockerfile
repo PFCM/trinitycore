@@ -6,33 +6,32 @@ LABEL author="Nicola Worthington <nicolaw@tfb.net>"
 
 ENV DEBIAN_FRONTEND noninteractive
 
-RUN apt-get -qq -o Dpkg::Use-Pty=0 update && \
-    apt-get -qq -o Dpkg::Use-Pty=0 install -y --no-install-recommends \
-    software-properties-common python3-software-properties \
-    curl \
- < /dev/null > /dev/null
-
-RUN curl -O -L https://github.com/neechbear/blip/releases/download/v0.9-1/blip_0.9-1_all.deb && \
-    apt install -y ./*.deb && rm *.deb
-
-RUN apt-get update
-RUN apt-get install -y --no-install-recommends \
-    default-libmysqlclient-dev \
-    libboost-all-dev \
-    zlib1g-dev
-
-RUN echo "deb http://ftp.debian.org/debian jessie-backports main" > /etc/apt/sources.list
-RUN apt-get update
-RUN apt-get install -y -t jessie-backports libssl-dev=1.0.2l-1~bpo8+1
-
-RUN rm -rf /var/lib/apt/lists/*
 #RUN apt-get -qq -o Dpkg::Use-Pty=0 update && \
 #    apt-get -qq -o Dpkg::Use-Pty=0 install -y --no-install-recommends \
-#    libboost-all-dev \
-#    libssl-dev=1.0.2l-1~bpo8+1 \
-#    default-libmysqlclient-dev \
-# < /dev/null > /dev/null \
-# && rm -rf /var/lib/apt/lists/*
+#    software-properties-common python-software-properties \
+# < /dev/null > /dev/null
+
+#RUN add-apt-repository ppa:nicolaw/blip && \
+#    sed -i 's/jessie/trusty/g' /etc/apt/sources.list.d/nicolaw-blip-jessie.list
+
+RUN apt-get -qq -o Dpkg::Use-Pty=0 update && \
+    apt-get -qq -o Dpkg::Use-Pty=0 install -y --no-install-recommends \
+    bc \
+    #blip \
+    curl \
+    libboost-filesystem1.62.0 \
+    libboost-iostreams1.62.0 \
+    libboost-program-options1.62.0 \
+    libboost-system1.62.0 \
+    libboost-thread1.62.0 \
+    libboost-regex1.62.0 \
+    libssl1.1 \
+    libmariadbclient18 \
+ < /dev/null > /dev/null \
+ && rm -rf /var/lib/apt/lists/*
+
+ADD https://github.com/neechbear/blip/releases/download/v0.10-1/blip_0.10-1_all.deb /tmp/blip.deb
+RUN dpkg -i /tmp/blip.deb && rm -f /tmp/blip.deb
 
 ENV install_prefix /opt/trinitycore
 ENV PATH "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:${install_prefix}/bin"
