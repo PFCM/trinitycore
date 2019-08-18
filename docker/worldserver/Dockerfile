@@ -6,13 +6,11 @@ LABEL author="Nicola Worthington <nicolaw@tfb.net>"
 
 ENV DEBIAN_FRONTEND noninteractive
 
-RUN echo "deb http://ftp.debian.org/debian jessie-backports main" > /etc/apt/sources.list.d/backports.list
-
 RUN apt-get -qq -o Dpkg::Use-Pty=0 update && \
     apt-get -qq -o Dpkg::Use-Pty=0 install -y --no-install-recommends \
     curl \
     libboost-all-dev \
-    libssl-dev=1.0.2l-1~bpo8+1 \
+    libssl-dev \
     default-libmysqlclient-dev \
     mysql-client \
     netcat \
