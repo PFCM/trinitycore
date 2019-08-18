@@ -1,0 +1,42 @@
+---
+# MIT License
+# Copyright (c) 2019 Paul Mathews <pfcmathews@gmail.com>
+
+# TODO: generate these files, don't write them by hand.
+# This defines the k8s Service and Deployment controlling the database.
+
+--
+# This is the Deployment, consisting of a single mariadb pod with
+# appropriate volumes
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mariadb-deployment
+  labels:
+    app: wow3
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wow3
+  template:
+    metadata:
+      labels:
+        app: wow3
+    spec:
+      containers:
+      - name: mariadb
+        image: "mariadb:latest"
+        ports:
+	- containerPort: "3307:3306"
+	env:
+	- name: MYSQL_ROOT_PASSWORD
+	  value: okgreat
+	- name: MYSQL_USER
+	  value: trinity
+	- name: MYSQL_PASSWORD
+	  value: trinity
+	livenessProbe:
+	  exec:
+	    command: ["mysqladmin", "ping", "-h", "127.0.0.1"]
+	# TODO: readinessProbe
